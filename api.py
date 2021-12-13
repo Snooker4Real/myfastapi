@@ -14,12 +14,14 @@ class CoordIn(BaseModel):
     lat: float
     lon: float
     zoom: Optional[int] = None
+    description: Optional[int] = None
 
 
 class CoordOut(BaseModel):
     lat: float
     lon: float
     zoom: Optional[int] = None
+    description: Optional[int] = None
 
 
 # get, put, delete, patch, ...
@@ -30,7 +32,7 @@ async def hello_world():
     return {"hello": "world"}
 
 
-@app.post("/position/", response_model=CoordOut)
+@app.post("/position/", response_model=CoordOut, response_model_exclude={'description'})
 async def make_position(coord: CoordIn):
     # db write completed
     return coord
@@ -41,10 +43,10 @@ async def make_position(coord: CoordIn):
 #     return {"component_id": component_id}
 #
 #
-# # http://127.0.0.1:8000/component/?number=42&text=vie
-# @app.get("/component/")
-# async def read_component(number: int, text: Optional[str]):
-#     return {"number": number, "text": text}
+# http://127.0.0.1:8000/component/?number=42&text=vie
+@app.get("/component/")
+async def read_component(number: int, text: Optional[str]):
+    return {"number": number, "text": text}
 
 
 if __name__ == "__main__":
